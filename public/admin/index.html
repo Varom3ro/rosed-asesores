@@ -114,20 +114,48 @@
       margin-bottom: 0.45rem;
     }
 
+    .password-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
     .login-input {
       width: 100%;
-      padding: 12px 14px;
+      padding: 12px 46px 12px 14px;
       font-family: inherit;
       font-size: 0.95rem;
       border: 1.5px solid var(--border);
       border-radius: var(--radius-sm);
       outline: none;
       transition: all 0.2s;
+      background: #F8FAFC;
     }
 
     .login-input:focus {
+      background: #FFFFFF;
       border-color: var(--accent);
       box-shadow: 0 0 0 4px var(--accent-light);
+    }
+
+    .toggle-password-btn {
+      position: absolute;
+      right: 8px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .toggle-password-btn:hover {
+      color: var(--primary);
+      background: #E2E8F0;
     }
 
     .login-btn {
@@ -538,13 +566,26 @@
       <h2 class="login-title">Portal de Asesores</h2>
       <p class="login-sub">Ingresa la contraseña maestra para acceder al panel de control.</p>
 
-      <form id="loginForm">
+      <form id="loginForm" onsubmit="event.preventDefault(); handleLogin();">
         <div class="login-group">
           <label class="login-label" for="password">Contraseña de Acceso</label>
-          <input type="password" id="password" class="login-input" placeholder="••••••••" required autofocus>
+          <div class="password-wrapper">
+            <input type="password" id="password" class="login-input" placeholder="••••••••" required autofocus autocomplete="current-password">
+            <button type="button" id="togglePasswordBtn" class="toggle-password-btn" aria-label="Mostrar u ocultar contraseña" title="Mostrar contraseña">
+              <!-- Ojo Abierto -->
+              <svg id="eyeIconOpen" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+              <!-- Ojo Tachado (Ocultar) -->
+              <svg id="eyeIconClosed" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: none;">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
+              </svg>
+            </button>
+          </div>
         </div>
 
-        <button type="submit" class="login-btn">Entrar al Sistema →</button>
+        <button type="submit" id="loginSubmitBtn" class="login-btn">Entrar al Sistema →</button>
         <div id="loginError" class="login-error">Contraseña incorrecta. Por favor intenta de nuevo.</div>
       </form>
     </div>
@@ -680,11 +721,15 @@
     const SUPABASE_URL = 'https://tqtzqdpwyuwhyvxlzcla.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxdHpxZHB3eXV3aHl2eGx6Y2xhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE5ODkzNTEsImV4cCI6MjEwNzU2NTM1MX0.kMEDd2az7Ya55SrxTbQpWbYl9pEPSDqjgQgamxjMewA';
 
-    // State
+    // State & Elements
     let leadsData = [];
     const loginView = document.getElementById('loginView');
     const dashboardView = document.getElementById('dashboardView');
     const loginForm = document.getElementById('loginForm');
+    const passwordInput = document.getElementById('password');
+    const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+    const eyeIconOpen = document.getElementById('eyeIconOpen');
+    const eyeIconClosed = document.getElementById('eyeIconClosed');
     const loginError = document.getElementById('loginError');
     const logoutBtn = document.getElementById('logoutBtn');
     const leadsTableBody = document.getElementById('leadsTableBody');
@@ -692,7 +737,17 @@
     const refreshBtn = document.getElementById('refreshBtn');
     const exportBtn = document.getElementById('exportBtn');
 
-    // 1. Manejo de Sesión
+    // 0. Toggle de visibilidad de contraseña (Ojito)
+    togglePasswordBtn.addEventListener('click', function () {
+      const isPass = passwordInput.type === 'password';
+      passwordInput.type = isPass ? 'text' : 'password';
+      eyeIconOpen.style.display = isPass ? 'none' : 'block';
+      eyeIconClosed.style.display = isPass ? 'block' : 'none';
+      togglePasswordBtn.title = isPass ? 'Ocultar contraseña' : 'Mostrar contraseña';
+      passwordInput.focus();
+    });
+
+    // 1. Manejo de Sesión y Autenticación
     function checkAuth() {
       const auth = sessionStorage.getItem('rosed_admin_auth');
       if (auth === 'true') {
@@ -705,16 +760,22 @@
       }
     }
 
-    loginForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const entered = document.getElementById('password').value;
+    function handleLogin() {
+      const entered = passwordInput.value.trim();
       if (entered === ADMIN_PASS) {
         sessionStorage.setItem('rosed_admin_auth', 'true');
         loginError.style.display = 'none';
         checkAuth();
       } else {
         loginError.style.display = 'block';
+        passwordInput.focus();
+        passwordInput.select();
       }
+    }
+
+    loginForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      handleLogin();
     });
 
     logoutBtn.addEventListener('click', function () {
@@ -854,14 +915,22 @@
         return;
       }
 
-      // BOM para caracteres especiales UTF-8 en Excel
-      let csv = '﻿Nombre y Apellido;Correo Electronico;Fecha de Nacimiento;Edad;Fecha de Registro;Origen
-';
+      // Cabecera CSV con BOM para soporte de tildes en Excel
+      const headers = ['Nombre y Apellido', 'Correo Electronico', 'Fecha de Nacimiento', 'Edad', 'Fecha de Registro', 'Origen'];
+      let csv = '\uFEFF' + headers.join(';') + '\r\n';
+
       leadsData.forEach(l => {
         const age = calculateAge(l.birth_date).replace(' años', '');
         const created = formatDate(l.created_at);
-        csv += `"${(l.full_name||'').replace(/"/g, '""')}";"${l.email||''}";"${l.birth_date||''}";"${age}";"${created}";"${l.source||''}"
-`;
+        const row = [
+          (l.full_name || '').replace(/"/g, '""'),
+          (l.email || ''),
+          (l.birth_date || ''),
+          age,
+          created,
+          (l.source || '')
+        ].map(val => `"${val}"`).join(';');
+        csv += row + '\r\n';
       });
 
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
