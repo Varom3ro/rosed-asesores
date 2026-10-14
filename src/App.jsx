@@ -15,7 +15,8 @@ import {
   CheckCircle,
   MessageCircle,
   Phone,
-  AlertCircle
+  AlertCircle,
+  Lock
 } from 'lucide-react'
 
 function App() {
@@ -104,13 +105,24 @@ function App() {
       <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-indigo-200/10 rounded-full blur-[120px] -z-10 pointer-events-none animate-pulse duration-[8s]"></div>
 
       {/* Header (Posicionamiento Absoluto para no empujar el contenido verticalmente) */}
-      <header className="absolute top-0 left-0 right-0 w-full max-w-7xl mx-auto px-6 py-6 md:py-8 flex justify-end z-30 pointer-events-none">
+      <header className="absolute top-0 left-0 right-0 w-full max-w-7xl mx-auto px-6 py-6 md:py-8 flex justify-between items-center z-30 pointer-events-none">
+        <a 
+          href="/admin" 
+          className="pointer-events-auto inline-flex items-center gap-2 px-3.5 py-1.5 md:px-4 md:py-2 rounded-full bg-white/80 hover:bg-white border border-slate-200/90 shadow-sm text-slate-700 hover:text-slate-950 text-xs md:text-sm font-bold transition-all duration-200 backdrop-blur-md hover:shadow-md hover:-translate-y-0.5 group"
+          title="Acceso al Portal Administrativo"
+        >
+          <span className="p-1 rounded-full bg-slate-100 group-hover:bg-teal-50 text-slate-600 group-hover:text-teal-600 transition-colors">
+            <Lock className="w-3.5 h-3.5" />
+          </span>
+          <span>Acceso Asesores</span>
+        </a>
+
         <div className="flex items-center gap-3 transition-transform duration-300 hover:scale-[1.02] pointer-events-auto">
           <img 
             id="brand-logo"
             src={logo} 
             alt="RosEd Asesores Logo" 
-            className="h-16 md:h-20 w-auto object-contain drop-shadow-sm" 
+            className="h-14 md:h-20 w-auto object-contain drop-shadow-sm" 
           />
         </div>
       </header>
@@ -258,6 +270,17 @@ function App() {
           </div>
 
           <div className="flex flex-col sm:flex-row items-center gap-4 text-sm text-slate-600">
+            <a 
+              href="/admin" 
+              className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-teal-700 font-medium transition-colors"
+              title="Portal de Asesores (Admin)"
+            >
+              <Lock className="w-3.5 h-3.5 text-slate-400" />
+              <span>Portal Asesores</span>
+            </a>
+
+            <div className="hidden sm:block text-slate-300">|</div>
+
             <a 
               id="footer-email-link"
               href="mailto:info@rosed.asesores.com" 

@@ -1062,6 +1062,45 @@
       color: #FFFFFF;
     }
 
+    .cta-download {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 14px 26px;
+      background: linear-gradient(135deg, var(--primary) 0%, #24507F 100%);
+      color: #FFFFFF;
+      text-decoration: none;
+      border-radius: 14px;
+      transition: all 0.25s ease;
+      box-shadow: 0 8px 24px rgba(27, 54, 93, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      text-align: left;
+    }
+
+    .cta-download:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(27, 54, 93, 0.5);
+      background: linear-gradient(135deg, #162c4d 0%, #1e456f 100%);
+      color: #FFFFFF;
+    }
+
+    .btn-download-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #FFFFFF;
+      line-height: 1.25;
+    }
+
+    .btn-download-subtext {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 500;
+      opacity: 0.92;
+      color: #E2E8F0;
+      margin-top: 2px;
+    }
+
     /* Sección del Asesor Rosed Oficial (.advisor-section) */
     .advisor-section {
       background: #F8FAFC;
@@ -1487,12 +1526,22 @@
         <div id="contacto" class="cta-box">
           <h3>¿Listo para tu Plan de Inversión?</h3>
           <p>No necesitas ser millonario para empezar. Solo necesitas ser constante. Diseñaré la estrategia perfecta para tu futuro.</p>
-          <a href="https://wa.me/584143114736?text=Hola%20Rosed%20Asesores,%20vi%20la%20gu%C3%ADa%20de%20Educaci%C3%B3n%20Financiera%20y%20quiero%20asesor%C3%ADa%20para%20dise%C3%B1ar%20mi%20plan%20de%20inversi%C3%B3n." target="_blank" rel="noopener noreferrer" class="cta-btn">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12 0 2.159.579 4.179 1.594 5.91l-1.602 5.918 6.079-1.595c1.698.929 3.646 1.467 5.72 1.467 6.627 0 12-5.373 12-12 0-6.627-5.373-12-12-12z"/>
-            </svg>
-            Contactar a un Asesor RosEd
-          </a>
+          <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; margin-top: 14px;">
+            <a href="https://wa.me/584143114736?text=Hola%20Rosed%20Asesores,%20vi%20la%20gu%C3%ADa%20de%20Educaci%C3%B3n%20Financiera%20y%20quiero%20asesor%C3%ADa%20para%20dise%C3%B1ar%20mi%20plan%20de%20inversi%C3%B3n." target="_blank" rel="noopener noreferrer" class="cta-btn">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12 0 2.159.579 4.179 1.594 5.91l-1.602 5.918 6.079-1.595c1.698.929 3.646 1.467 5.72 1.467 6.627 0 12-5.373 12-12 0-6.627-5.373-12-12-12z"/>
+              </svg>
+              Contactar a un Asesor RosEd
+            </a>
+
+            <a href="Plantilla-Presupuesto-50-30-20-Rosed.xlsx" download="Plantilla-Presupuesto-50-30-20-Rosed.xlsx" class="cta-download">
+              <svg width="22" height="22" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+              <div>
+                <div class="btn-download-title">Descargar Plantilla de Presupuesto</div>
+                <span class="btn-download-subtext">Excel gratuito • Calcula tu 50/30/20 automáticamente</span>
+              </div>
+            </a>
+          </div>
         </div>
       </section>
 
