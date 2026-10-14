@@ -3,6 +3,24 @@
 
 <head>
   <meta charset="UTF-8">
+  <!-- Gatekeeper: Acceso exclusivo mediante registro previo -->
+  <script>
+    (function () {
+      try {
+        const raw = localStorage.getItem('rosed_libertad_access');
+        if (!raw) {
+          window.location.replace('/Registro-Libertad-Financiera/?restricted=true');
+          return;
+        }
+        const data = JSON.parse(raw);
+        if (!data || !data.verified) {
+          window.location.replace('/Registro-Libertad-Financiera/?restricted=true');
+        }
+      } catch (e) {
+        window.location.replace('/Registro-Libertad-Financiera/?restricted=true');
+      }
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RosEd | Guía Maestra de Libertad Financiera</title>
   <meta name="description" content="Domina tu Dinero, Construye tu Libertad: Guía de Finanzas Personales de RosEd Asesores con El Cambio de Chip, Mitos vs. Realidades, Regla 50/30/20 y Simulador de Inversión con Interés Compuesto.">
